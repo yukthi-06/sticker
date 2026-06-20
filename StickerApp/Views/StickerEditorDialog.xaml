@@ -32,7 +32,7 @@
 
             <!-- Background Color Hex / Preset Picker -->
             <StackPanel Spacing="8">
-                <TextBlock Text="Sticker Color" Style="{StaticResource BodyTextBlockStyle}" />
+                <TextBlock Text="Sticker Color" Style="{ThemeResource BodyTextBlockStyle}" />
                 <Grid ColumnSpacing="8" RowSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

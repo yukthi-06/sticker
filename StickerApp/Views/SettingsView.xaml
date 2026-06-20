@@ -18,11 +18,11 @@
                 <StackPanel x:Name="ContentStack" Spacing="24">
                     <!-- General Settings Section -->
                     <StackPanel x:Name="GeneralPanel" Spacing="16" Visibility="Visible">
-                        <TextBlock Text="Application Settings" Style="{StaticResource TitleTextBlockStyle}" />
+                        <TextBlock Text="Application Settings" Style="{ThemeResource TitleTextBlockStyle}" />
 
                         <!-- Theme Selection -->
                         <StackPanel Spacing="8">
-                            <TextBlock Text="App Theme" Style="{StaticResource BodyTextBlockStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="App Theme" Style="{ThemeResource BodyTextBlockStyle}" FontWeight="SemiBold" />
                             <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
                                 <ComboBoxItem Content="System Default" Tag="system" />
                                 <ComboBoxItem Content="Light" Tag="light" />
@@ -37,16 +37,16 @@
 
                         <!-- Actions -->
                         <StackPanel Spacing="8" Margin="0,16,0,0">
-                            <TextBlock Text="Maintenance &amp; Backup" Style="{StaticResource BodyTextBlockStyle}" FontWeight="SemiBold" />
-                            <Button Content="Backup Stickers Now" Click="BackupButton_Click" Style="{StaticResource AccentButtonStyle}" />
+                            <TextBlock Text="Maintenance &amp; Backup" Style="{ThemeResource BodyTextBlockStyle}" FontWeight="SemiBold" />
+                            <Button Content="Backup Stickers Now" Click="BackupButton_Click" Style="{ThemeResource AccentButtonStyle}" />
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Recycle Bin Section -->
                     <StackPanel x:Name="RecyclePanel" Spacing="16" Visibility="Collapsed">
-                        <TextBlock Text="Recycle Bin (Soft Deleted Stickers)" Style="{StaticResource TitleTextBlockStyle}" />
+                        <TextBlock Text="Recycle Bin (Soft Deleted Stickers)" Style="{ThemeResource TitleTextBlockStyle}" />
                         
-                        <ListView x:Name="DeletedStickersList" SelectionMode="None" EmptyAsLabel="True">
+                        <ListView x:Name="DeletedStickersList" SelectionMode="None">
                             <ListView.Header>
                                 <Grid Margin="12,0,12,0">
                                     <Grid.ColumnDefinitions>
@@ -69,12 +69,12 @@
                                         <StackPanel Spacing="4">
                                             <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14" />
                                             <TextBlock Text="{Binding Text}" FontSize="12" TextTrimming="CharacterEllipsis" MaxLines="1" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
-                                            <TextBlock Text="{Binding DeletedAt, Converter={StaticResource DateTimeFormatter} , FallbackValue='Unknown date'}" FontSize="10" Foreground="{ThemeResource SystemControlPageTextBaseLowBrush}" />
+                                            <TextBlock Text="{Binding DeletedAt, FallbackValue='Unknown date'}" FontSize="10" Foreground="{ThemeResource SystemControlPageTextBaseLowBrush}" />
                                         </StackPanel>
 
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
                                             <Button Content="Restore" Click="RestoreButton_Click" Tag="{Binding}" />
-                                            <Button Content="Delete Permanently" Click="PurgeButton_Click" Tag="{Binding}" Style="{StaticResource DefaultButtonStyle}" />
+                                            <Button Content="Delete Permanently" Click="PurgeButton_Click" Tag="{Binding}" Style="{ThemeResource DefaultButtonStyle}" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
