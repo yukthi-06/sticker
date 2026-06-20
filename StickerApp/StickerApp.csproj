@@ -16,6 +16,7 @@
     <!-- Configure self-contained, portable build options -->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <SelfContained>true</SelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Program.cs" />
