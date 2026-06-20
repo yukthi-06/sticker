@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using StickerApp.Services;
 using StickerApp.ViewModels;
 using Windows.Graphics;
+using Windows.UI;
 
 namespace StickerApp.Views
 {

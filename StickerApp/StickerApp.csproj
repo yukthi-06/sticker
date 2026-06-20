@@ -16,7 +16,7 @@
     <!-- Configure self-contained, portable build options -->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <SelfContained>true</SelfContained>
-    <DisableWinExeEntrypoint>true</DisableWinExeEntrypoint>
+    <DisableEmbeddedEntryPoint>true</DisableEmbeddedEntryPoint>
   </PropertyGroup>
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
