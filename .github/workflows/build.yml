@@ -22,12 +22,22 @@ jobs:
     - name: Restore Dependencies
       run: dotnet restore StickerApp/StickerApp.csproj
 
-    - name: Build Application
-      run: dotnet build StickerApp/StickerApp.csproj --configuration Release --no-restore
+    - name: Build Framework Dependent (Small size)
+      run: dotnet build StickerApp/StickerApp.csproj --configuration Release -p:SelfContained=false -p:WindowsAppSDKSelfContained=false -o build-output/framework-dependent
 
-    - name: Upload Build Artifacts
+    - name: Build Self-Contained (Large size)
+      run: dotnet build StickerApp/StickerApp.csproj --configuration Release -p:SelfContained=true -p:WindowsAppSDKSelfContained=true -o build-output/self-contained
+
+    - name: Upload Framework Dependent Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: StickerApp-Portable-Release
-        path: StickerApp/bin/Release/net9.0-windows10.0.19041.0/
+        name: StickerApp-Framework-Dependent
+        path: build-output/framework-dependent/
+        if-no-files-found: error
+
+    - name: Upload Self-Contained Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: StickerApp-Self-Contained
+        path: build-output/self-contained/
         if-no-files-found: error
