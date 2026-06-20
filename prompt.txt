@@ -1,0 +1,601 @@
+please create a Windows desktop with following requirements
+* It should be a 'Sticker' application
+* When user minimizes all 'Windows+D', the should stay pinned to the desktop
+* When windows are restored, the sticker should be behind all apps.  It should never be over any other apps.
+* It should be a portable app, saving settings in its own folder
+* Store sticker data in separate file, nd in a json format
+* Delete of sticker should be soft delete
+* to be developerd in C# + WinUI3
+
+* It should have these features:
+	- Native Windows 11 look and feel
+	- Access to Windows APIs
+	- Always-on-top windows possibility
+	- Transparent backgrounds
+	- Click-through overlays
+	- System tray integration
+	- Notifications
+	- Animations
+	- Borderless transparent window
+	- Drag-and-drop positioning
+	- Save sticker locations/settings
+	- Optional system tray icon
+	- Startup with Windows
+	
+Give me a detailed single prompt so that I can feed that to an AI IDE
+
+==============================================================
+Output of CHATGPT
+-----------------
+
+# Build Specification: Windows Desktop Sticker Application (C# + WinUI 3)
+
+You are a senior Windows desktop software architect and C# developer.
+
+Design and implement a production-quality Windows desktop "Sticker" application using C# (.NET 9+) and WinUI 3 (Windows App SDK).
+
+The application behaves like desktop stickers/notes that are attached to the Windows desktop itself and are never displayed above normal application windows.
+
+---
+
+# Project Goal
+
+Create a lightweight, portable Windows 11 desktop sticker application that allows users to place visual stickers on the desktop.
+
+The stickers should appear as part of the desktop experience, remaining visible when the user presses Win+D (Show Desktop), while automatically staying behind normal application windows when applications are restored.
+
+The application should have a modern Windows 11 appearance, support transparency, animations, drag-and-drop positioning, and store all data in portable JSON files.
+
+---
+
+# Technology Stack
+
+## Mandatory
+
+* C#
+* .NET 9+
+* WinUI 3
+* Windows App SDK
+* MVVM architecture
+* CommunityToolkit.Mvvm
+* System.Text.Json
+
+## Optional
+
+* PInvoke for advanced Windows APIs
+* Win32 interop
+* Windows Notification APIs
+
+---
+
+# Core Functional Requirements
+
+## Sticker Behavior
+
+Each sticker:
+
+* Exists as an independent visual element.
+* Can contain:
+
+  * text
+  * emoji
+  * image
+  * color background
+* Supports transparency.
+* Supports animations.
+* Supports resizing.
+* Supports moving via drag-and-drop.
+* Supports opacity adjustment.
+* Supports lock/unlock position.
+
+---
+
+# Critical Desktop Integration Requirement
+
+Implement true desktop-layer behavior.
+
+## Requirement 1
+
+When user presses:
+
+Win + D
+
+or
+
+Show Desktop
+
+the stickers remain visible.
+
+They must appear together with desktop icons.
+
+---
+
+## Requirement 2
+
+When user restores applications:
+
+* Stickers must automatically move behind all application windows.
+* Stickers must never cover application windows.
+* Stickers must never become topmost over applications.
+
+---
+
+## Required Technical Approach
+
+Research and implement the classic WorkerW / Progman desktop hosting technique.
+
+Expected behavior:
+
+1. Locate desktop window hierarchy.
+
+2. Discover:
+
+* Progman
+* SHELLDLL_DefView
+* WorkerW
+
+3. Reparent sticker windows into desktop WorkerW layer.
+
+4. Ensure stickers render between:
+   Desktop wallpaper
+   Desktop icons
+
+or
+
+Desktop icons
+Normal application windows
+
+depending on implementation.
+
+Goal:
+
+Stickers behave like desktop elements, not normal windows.
+
+Use Win32 APIs such as:
+
+* FindWindow
+* FindWindowEx
+* EnumWindows
+* SendMessageTimeout
+* SetParent
+* SetWindowPos
+* GetWindowLongPtr
+* SetWindowLongPtr
+
+Implement a dedicated DesktopHostService.
+
+---
+
+# Window Requirements
+
+Sticker windows must be:
+
+* Borderless
+* Transparent
+* Acrylic or Mica optional
+* Rounded corners optional
+* Non-activated when desired
+* Click-through mode supported
+
+---
+
+# Click-through Mode
+
+Each sticker supports:
+
+Enabled:
+
+* mouse clicks pass through
+* desktop receives click
+
+Disabled:
+
+* sticker is interactive
+
+Implement using:
+
+WS_EX_TRANSPARENT
+
+and related Win32 styles.
+
+---
+
+# Always-On-Top Capability
+
+Although default behavior is desktop-pinned:
+
+Support optional mode:
+
+"Always On Top"
+
+for individual stickers.
+
+Implement using:
+
+SetWindowPos(HWND_TOPMOST)
+
+User configurable.
+
+Default:
+
+OFF
+
+---
+
+# Portable Application Requirement
+
+Application must be completely portable.
+
+Do NOT store settings in:
+
+* AppData
+* Registry
+* ProgramData
+
+Instead:
+
+Store everything relative to executable folder.
+
+Example:
+
+AppFolder/
+│
+├── StickerApp.exe
+├── settings.json
+├── stickers.json
+├── backups/
+├── logs/
+└── assets/
+
+Application must run from USB drive.
+
+---
+
+# Data Storage
+
+Use JSON only.
+
+---
+
+## settings.json
+
+Store:
+
+* theme
+* startup setting
+* tray icon setting
+* notification setting
+* animation setting
+* backup interval
+* version
+
+Example:
+
+{
+"theme": "system",
+"startWithWindows": false,
+"trayEnabled": true,
+"animationsEnabled": true
+}
+
+---
+
+## stickers.json
+
+Store all sticker records.
+
+Example:
+
+{
+"stickers": [
+{
+"id": "GUID",
+"title": "Reminder",
+"text": "Call customer",
+"x": 100,
+"y": 250,
+"width": 220,
+"height": 120,
+"opacity": 0.95,
+"color": "#FFF8B0",
+"locked": false,
+"deleted": false,
+"createdAt": "UTC",
+"updatedAt": "UTC"
+}
+]
+}
+
+---
+
+# Soft Delete Requirement
+
+Deleting a sticker must NOT physically remove it.
+
+Instead:
+
+Set:
+
+"deleted": true
+
+Store:
+
+* deletedAt
+* deletedBy
+
+(optional)
+
+Implement:
+
+Recycle Bin view
+
+Features:
+
+* restore sticker
+* permanently delete sticker
+
+---
+
+# Backup System
+
+Automatically backup:
+
+stickers.json
+
+to:
+
+backups/
+
+Create:
+
+timestamped backups
+
+Example:
+
+backups/stickers_2026_06_20_103000.json
+
+Retention:
+
+Keep last 50 backups.
+
+---
+
+# User Interface Requirements
+
+Use modern Windows 11 styling.
+
+Support:
+
+* Fluent Design
+* Mica
+* Acrylic
+* Light theme
+* Dark theme
+* System theme
+
+---
+
+# Main UI
+
+Provide:
+
+## Sticker Canvas
+
+Displays all active stickers.
+
+---
+
+## Context Menu
+
+Right-click sticker:
+
+* Edit
+* Duplicate
+* Lock
+* Unlock
+* Toggle Click-through
+* Bring to Desktop Layer
+* Always On Top
+* Delete
+
+---
+
+## Tray Menu
+
+System tray icon menu:
+
+* New Sticker
+* Show All Stickers
+* Restore Deleted
+* Settings
+* Backup Now
+* Exit
+
+---
+
+# Sticker Editor
+
+Editable properties:
+
+* title
+* content
+* font
+* font size
+* font color
+* background color
+* opacity
+* image
+* animation
+
+---
+
+# Startup With Windows
+
+Provide optional startup setting.
+
+Implement via:
+
+HKCU Run
+
+or
+
+Task Scheduler
+
+User selectable.
+
+Default:
+
+Disabled.
+
+---
+
+# Notifications
+
+Support Windows notifications.
+
+Examples:
+
+* Sticker reminder
+* Backup completed
+* Restore completed
+
+Use native Windows toast notifications.
+
+---
+
+# Animations
+
+Support:
+
+* fade in
+* fade out
+* slide
+* scale
+* pulse
+
+Use WinUI Composition APIs.
+
+Animations must be configurable.
+
+---
+
+# Architecture
+
+Use MVVM.
+
+Project structure:
+
+StickerApp/
+
+├── Models/
+│   ├── StickerModel.cs
+│   ├── SettingsModel.cs
+│
+├── ViewModels/
+│   ├── MainViewModel.cs
+│   ├── StickerViewModel.cs
+│   ├── SettingsViewModel.cs
+│
+├── Views/
+│   ├── MainWindow.xaml
+│   ├── StickerView.xaml
+│   ├── SettingsView.xaml
+│
+├── Services/
+│   ├── DesktopHostService.cs
+│   ├── JsonStorageService.cs
+│   ├── BackupService.cs
+│   ├── NotificationService.cs
+│   ├── TrayService.cs
+│   ├── StartupService.cs
+│   ├── AnimationService.cs
+│
+├── Interop/
+│   ├── Win32.cs
+│   ├── DesktopInterop.cs
+│
+├── Assets/
+├── Data/
+├── Backups/
+└── Logs/
+
+---
+
+# Performance Requirements
+
+* Memory usage under 100 MB with 100 stickers.
+* Startup under 2 seconds.
+* No polling loops.
+* Event-driven architecture.
+* Async file operations.
+* Async JSON serialization.
+
+---
+
+# Logging
+
+Implement structured logging.
+
+Store in:
+
+logs/
+
+Include:
+
+* startup
+* errors
+* backup operations
+* desktop host events
+* restore operations
+
+---
+
+# Error Handling
+
+Application must:
+
+* survive corrupted JSON
+* auto-create missing files
+* auto-recover from backup
+* log exceptions
+* never crash due to malformed sticker data
+
+---
+
+# Security
+
+* No internet access required.
+* No telemetry.
+* No cloud synchronization.
+* No user tracking.
+* No external dependencies requiring online services.
+
+---
+
+# Deliverables
+
+Generate:
+
+1. Complete solution architecture.
+2. Full project structure.
+3. Data models.
+4. MVVM implementation.
+5. Desktop WorkerW hosting implementation.
+6. Win32 interop layer.
+7. JSON persistence layer.
+8. Backup service.
+9. Notification service.
+10. System tray integration.
+11. Startup integration.
+12. Sample sticker editor.
+13. XAML UI layouts.
+14. Dependency injection setup.
+15. Build instructions.
+16. Deployment instructions.
+17. Unit testing strategy.
+18. Extensive code comments.
+19. Production-ready code suitable for Windows 11.
+20. Explanation of how WorkerW integration keeps stickers visible on Win+D while staying behind normal application windows.
+21. github build workflow
+
+This prompt is detailed enough for tools such as GitHub Copilot Workspace, Cursor, Windsurf, Claude Code, Roo Code, Cline, or other AI IDEs to generate a complete solution architecture and a substantial portion of the implementation.

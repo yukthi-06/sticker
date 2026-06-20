@@ -1,0 +1,63 @@
+<ContentDialog
+    x:Class="StickerApp.Views.StickerEditorDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Sticker Properties"
+    PrimaryButtonText="Save"
+    CloseButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <ScrollViewer MaxHeight="450">
+        <StackPanel Spacing="16" Width="380" Margin="0,8,0,8">
+            <!-- Title -->
+            <TextBox x:Name="TitleInput" Header="Title" PlaceholderText="Sticker Title" />
+
+            <!-- Content -->
+            <TextBox x:Name="ContentInput" Header="Content" PlaceholderText="Sticker Content..." AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" Height="Auto" />
+
+            <!-- Font Family -->
+            <ComboBox x:Name="FontInput" Header="Font Family" Width="200">
+                <ComboBoxItem Content="Segoe UI" />
+                <ComboBoxItem Content="Consolas" />
+                <ComboBoxItem Content="Georgia" />
+                <ComboBoxItem Content="Impact" />
+                <ComboBoxItem Content="Comic Sans MS" />
+            </ComboBox>
+
+            <!-- Font Size -->
+            <Slider x:Name="FontSizeInput" Header="Font Size (px)" Minimum="10" Maximum="36" StepFrequency="1" SnapsTo="StepValues" />
+
+            <!-- Background Color Hex / Preset Picker -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Sticker Color" Style="{StaticResource BodyTextBlockStyle}" />
+                <Grid ColumnSpacing="8" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!-- Preset Color Buttons -->
+                    <Button Content="Yellow" Background="#FFF8B0" Foreground="Black" Click="ColorPreset_Click" Tag="#FFF8B0" Grid.Column="0" HorizontalAlignment="Stretch" />
+                    <Button Content="Blue" Background="#C6F8FF" Foreground="Black" Click="ColorPreset_Click" Tag="#C6F8FF" Grid.Column="1" HorizontalAlignment="Stretch" />
+                    <Button Content="Green" Background="#D4FCD4" Foreground="Black" Click="ColorPreset_Click" Tag="#D4FCD4" Grid.Column="2" HorizontalAlignment="Stretch" />
+                    <Button Content="Pink" Background="#FFD4F4" Foreground="Black" Click="ColorPreset_Click" Tag="#FFD4F4" Grid.Column="3" HorizontalAlignment="Stretch" />
+                </Grid>
+                <TextBox x:Name="ColorHexInput" PlaceholderText="Custom Hex (#RRGGBB)" Margin="0,4,0,0" />
+            </StackPanel>
+
+            <!-- Opacity Slider -->
+            <Slider x:Name="OpacityInput" Header="Opacity" Minimum="0.2" Maximum="1.0" StepFrequency="0.05" />
+
+            <!-- Behavior Switches -->
+            <ToggleSwitch x:Name="AlwaysOnTopToggle" Header="Always On Top" />
+            <ToggleSwitch x:Name="ClickThroughToggle" Header="Click Through (Mouse click passes through)" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>
