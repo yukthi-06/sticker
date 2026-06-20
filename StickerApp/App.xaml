@@ -5,10 +5,7 @@
     xmlns:local="using:StickerApp">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Modern Styles and Theme Dictionaries can be defined here -->
-            </ResourceDictionary.MergedDictionaries>
+            <!-- Modern Styles and Theme Dictionaries can be defined here -->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

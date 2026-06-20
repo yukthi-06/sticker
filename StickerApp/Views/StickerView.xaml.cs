@@ -48,6 +48,8 @@ namespace StickerApp.Views
             // Register events
             this.RootGrid.PointerEntered += RootGrid_PointerEntered;
             this.RootGrid.PointerExited += RootGrid_PointerExited;
+            this.RootGrid.PointerMoved += RootGrid_PointerMoved;
+            this.HeaderPanel.PointerReleased += Header_PointerReleased;
             
             ViewModel.LockedChanged += (s, locked) => UpdateLockVisuals(locked);
             ViewModel.AlwaysOnTopChanged += (s, top) => _desktopHost.SetAlwaysOnTop(ViewModel.Id, top);
@@ -109,7 +111,7 @@ namespace StickerApp.Views
 
         private void UpdateLockVisuals(bool locked)
         {
-            LockIcon.Glyph = locked ? "\xE72E;" : "\xE785;"; // Padlock vs unlocked padlock
+            LockIcon.Glyph = locked ? "\uE72E" : "\uE785"; // Padlock vs unlocked padlock
         }
 
         private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)

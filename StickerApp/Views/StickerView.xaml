@@ -54,7 +54,7 @@
         </ScrollViewer>
 
         <!-- Custom resizer handle in bottom right corner -->
-        <Canvas Grid.Row="1" Width="12" Height="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" PointerPressed="ResizeHandle_PointerPressed" PointerMoved="ResizeHandle_PointerMoved" PointerReleased="ResizeHandle_PointerReleased" Background="Transparent">
+        <Canvas Grid.Row="1" Width="12" Height="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" PointerPressed="ResizeHandle_PointerPressed" PointerMoved="ResizeHandle_PointerMoved" PointerReleased="ResizeHandle_PointerReleased" Background="Transparent">
             <Path Data="M 12 0 L 12 12 L 0 12 Z" Fill="#20000000" />
         </Canvas>
     </Grid>
